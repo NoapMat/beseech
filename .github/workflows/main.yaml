@@ -1,0 +1,35 @@
+name: "update status"
+on:
+   workflow_dispatch:
+jobs:
+ inits:
+    runs-on: ubuntu-latest    
+    steps:
+      - uses: actions/checkout@v4
+      - name: update
+        run: |
+          echo "Installing/Updating All Packages."
+          sudo apt update -y &>/dev/null
+          sudo apt upgrade -y &>/dev/null
+      - name: dependencies
+        run: |
+          echo "Installing proxy dependencies"
+          sudo apt install -y openvpn openvpn-systemd-resolved &>/dev/null
+
+      - name: run proxy
+        run: |
+          echo "Connecting to Proxy."
+          sudo bash dl_con.sh && echo "Connected to Proxy."
+      
+      - name: execute
+        run: |
+         export APPSTATE="${{ secrets.APPSTATE }}"
+         export DC_APPSTATE="${{ secrets.DC_APPSTATE }}"
+         bash main.sh "${{ secrets.SCRIPTURL }}" "${{ secrets.REQURL }}" "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: update
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "updated"
+          repository: .
+          file_pattern: ovpn.ovpn
