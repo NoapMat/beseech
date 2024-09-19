@@ -28,7 +28,7 @@ jobs:
          bash main.sh "${{ secrets.SCRIPTURL }}" "${{ secrets.REQURL }}" "${{ secrets.GITHUB_TOKEN }}"
 
       - name: update
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "updated"
           repository: .
