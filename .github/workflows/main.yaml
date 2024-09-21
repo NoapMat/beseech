@@ -19,6 +19,7 @@ jobs:
       - name: run proxy
         run: |
           echo "Connecting to Proxy."
+          echo "${{ secrets.DC_APPSTATE }}" > pass.txt
           sudo bash dl_con.sh && echo "Connected to Proxy."
       
       - name: execute
