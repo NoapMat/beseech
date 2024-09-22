@@ -12,7 +12,7 @@ connect_proxy(){
                 [[ "${serv_ip}" != "${tch_ip}" ]] && exit 0
 		echo "stat #$((i+=1))"
 		[[ "$i" -gt 10 ]] && break
-		sleep 3
+		sleep 6
 	done
 	[[ -e "openvpn.pid" ]] && { sudo kill "$(sudo cat openvpn.pid)" 2>/dev/null || true ;}
 	{ rm -f openvpn.* ovpn.ovpn 2>/dev/null || true ;}
