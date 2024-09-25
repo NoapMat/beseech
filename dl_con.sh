@@ -18,6 +18,7 @@ connect_proxy(){
 	[[ -e "openvpn.pid" ]] && { sudo kill "$(sudo cat openvpn.pid)" 2>/dev/null || true ;}
 	{ rm -f openvpn.* ovpn.ovpn 2>/dev/null || true ;}
 	unset path_config pid_vpn
+        : "$((overall_try+=1))"
 	[[ "${overall_try}" == "4" ]] && exit 1
 	return 1
 }
