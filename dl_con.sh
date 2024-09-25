@@ -1,4 +1,5 @@
 #!/bin/bash
+overall_try=0
 connect_proxy(){
 	path_config="${1}"
 	[[ -e "${path_config}" ]] || { printf '%s\n' "Error: Config Not found" ; return 1 ;}
@@ -17,6 +18,7 @@ connect_proxy(){
 	[[ -e "openvpn.pid" ]] && { sudo kill "$(sudo cat openvpn.pid)" 2>/dev/null || true ;}
 	{ rm -f openvpn.* ovpn.ovpn 2>/dev/null || true ;}
 	unset path_config pid_vpn
+	[[ "${overall_try}" == "4" ]] && exit 1
 	return 1
 }
 
@@ -40,5 +42,5 @@ get_vpn(){
 serv_ip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
 echo "Current Server Ip: ${serv_ip}"
 while true; do
-	connect_proxy "ovpn.ovpn" || { { get_vpn || echo "error from get_vpn function" ;} ; continue ;}
+	connect_proxy "ovpn.ovpn" #|| { { get_vpn || echo "error from get_vpn function" ;} ; continue ;}
 done
